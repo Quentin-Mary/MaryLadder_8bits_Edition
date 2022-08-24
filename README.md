@@ -1,4 +1,4 @@
-# MaryLadder_8bits_Edition
+# MaryLadder_8bits_Edition V1
  A pocket-sized 8-bit adder/subtractor PCB with a decimal display 
  
  Features : 
