@@ -11,6 +11,15 @@ A pocket-sized 8-bits adder/subtractor PCB with a decimal display
 - Type-C connector for 5V input
 
 
+## Assembly and Programming
+
+#### Electronic Design
+
+
+#### Assembly
+
+
+#### Programming
 ## FAQ
 
 ####  How was this project born?
@@ -31,4 +40,13 @@ wonder about these ICs.
 The realization of this PCB project is important to me.
 First of all, because my very own projet, I designed everything from electrical
 diagram, to placement, routing and even embedded software.
-Through this project, I tried to prove to myself what I was capable of. 
+Through this project, I tried to prove to myself what I was capable of in terms
+of PCB design.
+
+But above all, I designed this pocket sized 8 bits adder in order to popularise
+how basics calucations are done in a computer. Learning to count in binary isn't
+that fun and appealing for someone who has no strong interest in electronics and
+IT. I believe that having an object in your hands that allows you to visualize what's
+going on is a pretty nice solution. 
+
+
