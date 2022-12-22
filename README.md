@@ -11,6 +11,30 @@ A pocket-sized 8-bits adder/subtractor PCB with a decimal display
 - Type-C connector for 5V input
 
 
+## How the project works, in a nutshell
+
+I'll say that my project can be divided in two main parts :
+
+* Addition and substraction of two 8-bits numbers (A and B) using switches and LEDs
+* Displaying the selected number (A, B or S) in decimal on the 7 segment display 
+
+For the first part, only logic ICs are involved. It begins by selecting each bit of your choice
+by switching on or off LEDs on number A and B. These inputs are connected to two 4-bits adders that
+are cascaded (CD74ACT283M). Outputs are connected to LEDs of number S (S for sum). With only this configuration,
+you can visualize how binary additions work. To choose from addition or substraction, a switch can be activated :
+XOR gates are involved in order to create substraction a two's complement. Here, reading the result is not as easy
+as addition, you'll have to think a little bit and even write it down on a piece of paper.
+
+The second part concerns a microcontroller
+## State of the project
+
+### What's working?
+
+### What is not working (yet)?
+
+### My thoughts on this project
+
+* What could have been done differently
 ## Assembly and Programming
 
 #### Electronic Design
