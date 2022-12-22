@@ -25,7 +25,7 @@ Reference : Mehran Maleki, (https://electropeak.com/learn/interfacing-74hc4051-8
 
 
 //Functions
-int read_mux(int channel){
+bool read_mux_channel(int channel){
   int controlPinMux[] = {M_C, M_B, M_A};
   int muxChannel[8][3]={
       {0,0,0}, //channel 0
@@ -41,10 +41,51 @@ int read_mux(int channel){
   for(int i=0; i<3; i++){
     digitalWrite(controlPinMux[i], muxChannel[channel][i]);
   }
-  int val_bit = analogRead(M_Y);
+  bool val_bit = analogRead(M_Y);
   return val_bit;
 }
 
+// void read_mux(bool* tab_value){
+//   bool value;
+//   //bool tab_value[8];
+//   for(int i=0; i<8; i++){
+//     value = read_mux_channel(i);
+//     tab_value[i] = value;
+//   }
+// }
+
+// int bits_weight(bool tab_value[]){
+//   int sum = 0;
+//   int table_weight[8] = {128,64,32,16,8,4,2,1};
+//   //int table_weight[8] = {1,2,4,8,16,32,64,128};
+
+//   for(int i=0; i<8; i++){
+//     if(tab_value[i] == true){
+//       sum = sum + table_weight[i];
+//     }
+//   }
+
+//   return sum;
+// }
+
+int test_read_bits_weight(){
+  bool value;
+  int sum = 0;
+  //int table_weight[8] = {128,64,32,16,8,4,2,1};
+  int table_weight[8] = {1,2,4,8,16,32,64,128};
+
+  for(int i=0; i<8; i++){
+    value = read_mux_channel(i);
+    if(value == true){
+      sum = sum + table_weight[i];
+    }
+  }
+
+  return sum;
+}
+
+
+//--- DISPLAY FUNCTIONS ---//
 void write_disp(int num){
   int controlPinDisp[] = {IN_DS_D, IN_DS_C, IN_DS_B, IN_DS_A};
   int dispChannel[10][4]={
@@ -64,13 +105,50 @@ void write_disp(int num){
   }
 }
 
+void write_disp_complete(int num){
+
+  int digit_1 = num / 100; 
+  int digit_2 = (num / 10)%10; 
+  int digit_3 = num % 10;
+
+  turnON_Digit(DQ_1);
+  turnOFF_Digit(DQ_2);
+  turnOFF_Digit(DQ_3);
+  write_disp(digit_1);
+  delay(5);
+
+  turnOFF_Digit(DQ_1);
+  turnON_Digit(DQ_2);
+  turnOFF_Digit(DQ_3);
+  write_disp(digit_2);
+  delay(5);
+
+  turnOFF_Digit(DQ_1);
+  turnOFF_Digit(DQ_2);
+  turnON_Digit(DQ_3);
+  write_disp(digit_3);
+  delay(5);
+}
+
+
 void disp_test(){
   for(int i=0; i<10; i++){
     write_disp(i);
-    delay(1000);
+    delay(500);
   }
   delay(3000);
 }
+
+void turnON_Digit(int digit){
+  digitalWrite(digit, HIGH);
+}
+
+void turnOFF_Digit(int digit){
+  digitalWrite(digit, LOW);
+}
+//---//
+
+//End of functions
 
 void setup() {
   //Outputs to activate each digits
@@ -90,14 +168,13 @@ void setup() {
   pinMode(M_B, OUTPUT);
 
   //Input to get the bit selected on the mux
-  pinMode(M_Y, INPUT);
+  pinMode(M_Y, INPUT); 
 
 
-  //POUR TEST 
-  digitalWrite(DQ_1, HIGH);
-  digitalWrite(DQ_2, HIGH);
-  digitalWrite(DQ_3, HIGH);
 }
+
+//bool array_value[8];
+int sum;
 
 void loop() {
   // digitalWrite(IN_DS_A, HIGH);
@@ -109,6 +186,30 @@ void loop() {
   //     int val = read_mux(i);
   //     delay(1000);
   // }
-  disp_test();
+
+
+  //disp_test();
+  //write_disp_complete(123);
+
+  // bool val = read_mux_channel(8);
+  // if(val == true){
+  //   write_disp_complete(1);
+  // }
+  // else{
+  //   write_disp_complete(0);
+  // }
+
+  sum = test_read_bits_weight();
+  write_disp_complete(sum);
+  sum = 0;
+
+  
+  //read_mux(array_value);
+
+
+  
+  //sum = bits_weight(array_value);
+
+  //write_disp_complete(sum);
 
 }
