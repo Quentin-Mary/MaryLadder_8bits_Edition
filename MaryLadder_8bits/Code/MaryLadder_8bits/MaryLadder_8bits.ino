@@ -173,25 +173,40 @@ void setup() {
 
 }
 
-//bool array_value[8];
-int sum;
+
+typedef enum{
+  INIT,
+  BIT_0,
+  BIT_1,
+  BIT_2,
+  BIT_3,
+  BIT_4,
+  BIT_5,
+  BIT_6,
+  BIT_7,
+  DISPLAY_SUM
+}Mode_e;
+
+static Mode_e mode = INIT;
+
+int check_bit(int bit_num){
+  int value_bit;
+  bool bool_val = read_mux_channel(bit_num);
+  if(bool_val == true){
+    value_bit = 1;
+  }
+  else{
+    value_bit = 0;
+  }
+  return value_bit;
+}
 
 void loop() {
-  // digitalWrite(IN_DS_A, HIGH);
-  // digitalWrite(IN_DS_B, LOW);
-  // digitalWrite(IN_DS_C, LOW);
-  // digitalWrite(IN_DS_D, LOW);
-
-  //   for (int i=0; i<8; i++){
-  //     int val = read_mux(i);
-  //     delay(1000);
-  // }
-
 
   //disp_test();
   //write_disp_complete(123);
 
-  // bool val = read_mux_channel(8);
+  // bool val = read_mux_channel(7);
   // if(val == true){
   //   write_disp_complete(1);
   // }
@@ -199,17 +214,107 @@ void loop() {
   //   write_disp_complete(0);
   // }
 
-  sum = test_read_bits_weight();
-  write_disp_complete(sum);
-  sum = 0;
+  // sum = test_read_bits_weight();
+  // write_disp_complete(sum);
+  // sum = 0;
+
+  switch (mode){
+    case INIT:
+      int sum = 0;
+      int check_bit_result = 0;
+
+      // write_disp_complete(1);
+      // delay(100);
+      // write_disp_complete(0);
+
+      mode = DISPLAY_SUM;
+      break;
+    
+    case BIT_0:
+      check_bit_result = check_bit(0);
+      if(check_bit_result == 1){
+        sum = 1;
+      }
+      check_bit_result = 0;
+      delay(200);
+      mode = BIT_1;
+      break;
+
+    case BIT_1:
+      check_bit_result = check_bit(1);
+      if(check_bit_result == 1){
+        sum = sum + 2;
+      }
+      check_bit_result = 0;
+      delay(200);
+      mode = BIT_2;
+      break;
+
+
+    case BIT_2:
+      check_bit_result = check_bit(2);
+      if(check_bit_result == 1){
+        sum = sum + 4;
+      }
+      check_bit_result = 0;
+      mode = BIT_3;
+      break;
+
+    case BIT_3:
+      check_bit_result = check_bit(3);
+      if(check_bit_result == 1){
+        sum = sum + 8;
+      }
+      check_bit_result = 0;
+      mode = BIT_4;
+      break;
+
+    case BIT_4:
+      check_bit_result = check_bit(4);
+      if(check_bit_result == 1){
+        sum = sum + 16;
+      }
+      check_bit_result = 0;
+      mode = BIT_5;
+      break;
+
+    case BIT_5:
+      check_bit_result = check_bit(5);
+      if(check_bit_result == 1){
+        sum = sum + 32;
+      }
+      check_bit_result = 0;
+      mode = BIT_6;
+      break;
+
+    case BIT_6:
+      check_bit_result = check_bit(6);
+      if(check_bit_result == 1){
+        sum = sum + 64;
+      }
+      check_bit_result = 0;
+      mode = BIT_7;
+      break;
+
+    case BIT_7:
+      check_bit_result = check_bit(7);
+      if(check_bit_result == 1){
+        sum = sum + 128;
+      }
+      check_bit_result = 0;
+      mode = DISPLAY_SUM;
+      break;  
+
+    case DISPLAY_SUM:
+      //write_disp_complete(124);
+      sum = 0;
+      mode = INIT;
+      break; 
+
+    default:
+      break; 
+  }
 
   
-  //read_mux(array_value);
-
-
-  
-  //sum = bits_weight(array_value);
-
-  //write_disp_complete(sum);
 
 }
